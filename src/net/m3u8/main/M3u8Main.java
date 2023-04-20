@@ -12,15 +12,21 @@ import net.m3u8.utils.Constant;
 
 public class M3u8Main {
 
-    private static final String M3U8URL = "https://vod2.bdzybf7.com/20230415/QXyFQj4H/index.m3u8";
+//    private static final String M3U8URL = "";
 
     public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("usage: java -jar Me M3U8URL FileName");
+            return;
+        }
+        String M3U8URL = args[0];
+        String FileName = args[1];
 
         M3u8DownloadFactory.M3u8Download m3u8Download = M3u8DownloadFactory.getInstance(M3U8URL);
         //设置生成目录
-        m3u8Download.setDir("E://m3u8JavaTest");
+        m3u8Download.setDir("E://m3u8Download");
         //设置视频名称
-        m3u8Download.setFileName("test");
+        m3u8Download.setFileName(FileName);
         //设置线程数
         m3u8Download.setThreadCount(100);
         //设置重试次数
