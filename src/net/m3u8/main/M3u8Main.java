@@ -24,7 +24,7 @@ public class M3u8Main {
 
         M3u8DownloadFactory.M3u8Download m3u8Download = M3u8DownloadFactory.getInstance(M3U8URL);
         //设置生成目录
-        m3u8Download.setDir("E://m3u8Download");
+        m3u8Download.setDir("d://m3u8Download");
         //设置视频名称
         m3u8Download.setFileName(FileName);
         //设置线程数

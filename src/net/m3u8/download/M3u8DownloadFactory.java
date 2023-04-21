@@ -24,6 +24,8 @@ import java.security.Security;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.m3u8.utils.Constant.FILESEPARATOR;
 
@@ -339,6 +341,28 @@ public class M3u8DownloadFactory {
         }
 
         /**
+
+         * 获取网络的根域名
+
+         * @param url
+
+         * @return
+
+         */
+
+        public String getDomainName(String url){
+            String pattern = "/(?!/)";
+            Pattern compile = Pattern.compile(pattern);
+            Matcher matcher = compile.matcher(url);
+            ArrayList list = new ArrayList<>();
+            while (matcher.find()){
+                list.add(matcher.start());
+            }
+            String substring = url.substring(0, (int)list.get(1) + 1);
+            return substring;
+        }
+
+        /**
          * 获取所有的ts片段下载链接
          *
          * @return 链接是否被加密，null为非加密
@@ -362,7 +386,8 @@ public class M3u8DownloadFactory {
                 if (s.contains(".m3u8")) {
                     if (StringUtils.isUrl(s))
                         return s;
-                    String relativeUrl = DOWNLOADURL.substring(0, DOWNLOADURL.lastIndexOf("/") + 1);
+//                    String relativeUrl = DOWNLOADURL.substring(0, DOWNLOADURL.lastIndexOf("/") + 1);
+                    String relativeUrl = getDomainName(DOWNLOADURL);
                     if (s.startsWith("/"))
                         s = s.replaceFirst("/", "");
                     keyUrl = mergeUrl(relativeUrl, s);
@@ -412,7 +437,8 @@ public class M3u8DownloadFactory {
                     }
                 }
             }
-            String relativeUrl = url.substring(0, url.lastIndexOf("/") + 1);
+//            String relativeUrl = url.substring(0, url.lastIndexOf("/") + 1);
+            String relativeUrl = getDomainName(url);
             //将ts片段链接加入set集合
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
